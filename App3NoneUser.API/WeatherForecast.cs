@@ -1,4 +1,4 @@
-namespace AuthServer.API
+namespace App3NoneUser.API
 {
     public class WeatherForecast
     {

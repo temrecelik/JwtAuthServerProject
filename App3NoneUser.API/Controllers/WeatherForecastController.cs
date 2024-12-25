@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthServer.API.Controllers
+namespace App3NoneUser.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
