@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthServer.Service\AuthServer.Business.csproj" />
+    <ProjectReference Include="..\AuthServer.BusinessLayer\AuthServer.BusinessLayer.csproj" />
     <ProjectReference Include="..\AuthServer.Shared\AuthServer.Shared.csproj" />
   </ItemGroup>
 
