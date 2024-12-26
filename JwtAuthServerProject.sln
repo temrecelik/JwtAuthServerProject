@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.Shared", "AuthSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.DataAccessLayer", "AuthServer.DataAccessLayer\AuthServer.DataAccessLayer.csproj", "{FFD9DA06-D18B-48F6-93CE-FEF935A69520}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.BusinessLayer", "AuthServer.BusinessLayer\AuthServer.BusinessLayer.csproj", "{0B069328-483C-42BD-8EEC-F9E094922B0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.CoreLayer", "AuthServer.CoreLayer\AuthServer.CoreLayer.csproj", "{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.CoreLayer", "AuthServer.CoreLayer\AuthServer.CoreLayer.csproj", "{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.ServiceLayer", "AuthServer.ServiceLayer\AuthServer.ServiceLayer.csproj", "{D583A7D5-C55D-42D2-8CCE-06FE3051B58C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,14 +49,14 @@ Global
 		{FFD9DA06-D18B-48F6-93CE-FEF935A69520}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD9DA06-D18B-48F6-93CE-FEF935A69520}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFD9DA06-D18B-48F6-93CE-FEF935A69520}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D583A7D5-C55D-42D2-8CCE-06FE3051B58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D583A7D5-C55D-42D2-8CCE-06FE3051B58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D583A7D5-C55D-42D2-8CCE-06FE3051B58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D583A7D5-C55D-42D2-8CCE-06FE3051B58C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
