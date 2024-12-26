@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthServer.EntityLayer.Entities
+namespace AuthServer.CoreLayer.Entities
 {
     /*
       User'lar için identity ile üyelik sistemini oluşturulacak. İdentityUser classında user için default property'ler tanımlıdır. IdentityUser
@@ -14,8 +14,8 @@ namespace AuthServer.EntityLayer.Entities
     */
     public class UserApp : IdentityUser<string>
     {
-       public string city { get; set; }
-       
+        public string city { get; set; }
+
 
     }
 }

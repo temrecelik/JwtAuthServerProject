@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AuthServer.Shared.Dtos
@@ -35,6 +36,16 @@ namespace AuthServer.Shared.Dtos
         public ErrorDto? Error { get; private set; }
 
         /*
+        Bu property back-end geliştirilirken kullanılır client tarafına gönderilmez ve bu response clien'a gönderilmek için json'a
+        döndürülürken JsonIgNore kullanıldığı için dahil edilmez. Amacı response success olup olmadığını statusCode'a bakıp anlamak yerine
+        direkt true yada false mı diye bakarak anlamatakdır. Sadece back-end geliştirirken işimizi hızlandırır. Success methodlarda true
+        setleyip fail methodlarda da false'a setlemek yeterli olacaktır.
+        */
+        [JsonIgnore]
+        public bool IsSuccessful { get; private set; }
+
+
+        /*
         Örneğin ProductController'da bulunun bir end-point için başarılı bir response dönmek istersek
         return  Response<Product>.Success(Product,2001) şeklinde bir dönüş yapabiliriz. Success methodu direkt olarak static olduğu için
         Response classı üzerinden nesne üretmeden çağırabiliriz. Aynı methodu birden fazla yazıp parametrelerin sayısını farklı vermek 
@@ -43,16 +54,16 @@ namespace AuthServer.Shared.Dtos
         */
         public static Response<T> Success(T data, int statusCode)
         {
-            return new Response<T> { Data = data, StatusCode = statusCode };
+            return new Response<T> { Data = data, StatusCode = statusCode , IsSuccessful = true};
         }
 
         public static Response<T> Success(int statusCode) { 
-            return new Response<T> {Data= default, StatusCode = statusCode };
+            return new Response<T> {Data= default, StatusCode = statusCode, IsSuccessful=true };
         }
 
         //Response olarak birden fazla hata mesajı dönülecekse ErrorDto olarak dönülebilir.
         public static Response<T> Fail(int statusCode, ErrorDto error) { 
-            return new Response<T> { StatusCode = statusCode, Error = error,  };
+            return new Response<T> { StatusCode = statusCode, Error = error, IsSuccessful =false };
         }
 
         /*
@@ -61,8 +72,7 @@ namespace AuthServer.Shared.Dtos
         */
         public static Response<T> Fail(int statusCode,  string ErrorMessage ,bool ErrorIsShow)
         {
-
-            return new Response<T> { StatusCode = statusCode, Error = new ErrorDto(ErrorMessage,ErrorIsShow) };
+            return new Response<T> { StatusCode = statusCode, Error = new ErrorDto(ErrorMessage,ErrorIsShow) ,IsSuccessful = false };
         }
 
     }

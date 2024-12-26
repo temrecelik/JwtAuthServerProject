@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthServer.EntityLayer.Repositories
+namespace AuthServer.CoreLayer.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetByIdAsync(int id);
-        Task <IEnumerable<TEntity>> GetAllAsync();   
+        Task<IEnumerable<TEntity>> GetAllAsync();
 
         /*
          Where methodu ile linq ile sorgu yazıldıktan sonra bu sorguyu karşılayan Entity'ler IQueryable olarak döner ancak bu list değildir. 
@@ -27,6 +27,6 @@ namespace AuthServer.EntityLayer.Repositories
           işratlenir. Bu nedenle EntityFramework'ün remove methodu Task değildir.Update işleminde de state updated'e çekilir.
         */
         void Remove(TEntity entity);
-        TEntity Update(TEntity entity); 
+        TEntity Update(TEntity entity);
     }
 }

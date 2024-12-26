@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App3NoneUser.API", "App3Non
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.Shared", "AuthServer.Shared\AuthServer.Shared.csproj", "{096A2905-28ED-4C48-BDAF-1D16A338C54D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.EntityLayer", "AuthServer.EntityLayer\AuthServer.EntityLayer.csproj", "{7B065091-F514-4838-8F1A-D16A21B2B2C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.DataAccessLayer", "AuthServer.DataAccessLayer\AuthServer.DataAccessLayer.csproj", "{FFD9DA06-D18B-48F6-93CE-FEF935A69520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.DataAccessLayer", "AuthServer.DataAccessLayer\AuthServer.DataAccessLayer.csproj", "{FFD9DA06-D18B-48F6-93CE-FEF935A69520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.BusinessLayer", "AuthServer.BusinessLayer\AuthServer.BusinessLayer.csproj", "{0B069328-483C-42BD-8EEC-F9E094922B0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.BusinessLayer", "AuthServer.BusinessLayer\AuthServer.BusinessLayer.csproj", "{0B069328-483C-42BD-8EEC-F9E094922B0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.CoreLayer", "AuthServer.CoreLayer\AuthServer.CoreLayer.csproj", "{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,6 @@ Global
 		{096A2905-28ED-4C48-BDAF-1D16A338C54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{096A2905-28ED-4C48-BDAF-1D16A338C54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{096A2905-28ED-4C48-BDAF-1D16A338C54D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B065091-F514-4838-8F1A-D16A21B2B2C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B065091-F514-4838-8F1A-D16A21B2B2C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B065091-F514-4838-8F1A-D16A21B2B2C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B065091-F514-4838-8F1A-D16A21B2B2C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FFD9DA06-D18B-48F6-93CE-FEF935A69520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FFD9DA06-D18B-48F6-93CE-FEF935A69520}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD9DA06-D18B-48F6-93CE-FEF935A69520}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B069328-483C-42BD-8EEC-F9E094922B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CFE4F63-3EC5-4FDC-916D-7DEEB45E50CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

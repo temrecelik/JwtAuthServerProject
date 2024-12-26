@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuthServer.EntityLayer.Entities
+namespace AuthServer.CoreLayer.Entities
 {
     /*
     AuthServer Client tarafına göndereceği refresh token'ı aynı zamanda veri tabanındada hangi kullanıcıya ait olduğu ve token ömrü ile
@@ -14,6 +14,6 @@ namespace AuthServer.EntityLayer.Entities
     {
         public string UserId { get; set; }
         public string RefreshTokenCode { get; set; }
-        public string Expiration {  get; set; }
+        public string Expiration { get; set; }
     }
 }
