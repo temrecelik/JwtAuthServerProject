@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthServer.DataAccessLayer\AuthServer.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\AuthServer.Shared\AuthServer.Shared.csproj" />
   </ItemGroup>
 
 </Project>
