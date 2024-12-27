@@ -70,7 +70,6 @@ namespace AuthServer.DataAccessLayer.Repositories
           katmanında sorgulanmış veriler istenirken kullanılır.Tüm sorgu bittikten sonra tolist() methodunu çağırdığımzda
           veri tabanından veriyi çeker.
         */
-
         public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.Where(predicate);
