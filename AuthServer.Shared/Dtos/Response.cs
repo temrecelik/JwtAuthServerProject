@@ -70,7 +70,7 @@ namespace AuthServer.Shared.Dtos
          Fail methodunu overload ettik eğer bir tane hata mesajı var ise bunu string olarak olarak ErrorDto'ya çevirerek Fail response
         static methodunu oluşturduk
         */
-        public static Response<T> Fail(int statusCode,  string ErrorMessage ,bool ErrorIsShow)
+        public static Response<T> Fail(string ErrorMessage, int statusCode , bool ErrorIsShow)
         {
             return new Response<T> { StatusCode = statusCode, Error = new ErrorDto(ErrorMessage,ErrorIsShow) ,IsSuccessful = false };
         }

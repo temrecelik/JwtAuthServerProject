@@ -20,13 +20,13 @@ namespace AuthServer.CoreLayer.Services
          *Burada artık tüm business kodu yazıldığı için tekrar olarka IQueryabla olarak aranan entity'leri dönmeye gerek yoktur.Daha fazla
           sorgu olmayacağı için IEnumerabla olarak dönülebilir.
         */
-        Response<IEnumerable<TDto>> Where(Expression<Func<TEntity, bool>> predicate); 
+         Task<Response<IEnumerable<TDto>>> Where(Expression<Func<TEntity, bool>> predicate); 
 
-        Task<Response<TDto>> AddAsync(TEntity entity);
+        Task<Response<TDto>> AddAsync(TDto dto);
 
         //bir kayıt silindiğinde silinen kayıdı döndürmeye gerek yoktur bu nedenle response'ın data kısmına boş bir dto gönderebiliriz.
-        Response<NoDataDto> Remove(TEntity entity);
+        Task<Response<NoDataDto>> Remove(int Id);
 
-        Response<NoDataDto> Update(TEntity entity);
+        Task<Response<NoDataDto>> Update(TDto dto,int Id);
     }
 }
