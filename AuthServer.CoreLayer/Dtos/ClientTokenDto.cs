@@ -18,7 +18,7 @@ namespace AuthServer.CoreLayer.Dtos
     public class ClientTokenDto
     {
         public string AccessToken { get; set; }
-        public string AccessTokenExpiration { get; set; }   
+        public DateTime AccessTokenExpiration { get; set; }   
 
     }
 }
