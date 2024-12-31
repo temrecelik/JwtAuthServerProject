@@ -14,6 +14,6 @@ namespace AuthServer.CoreLayer.Entities
     {
         public string UserId { get; set; }
         public string RefreshTokenCode { get; set; }
-        public string Expiration { get; set; }
+        public DateTime Expiration { get; set; }
     }
 }

@@ -119,14 +119,15 @@ namespace AuthServer.ServiceLayer.Services
             return TokenDto;
         }
 
-        public ClientTokenDto CreateTokenByClient(Client client)
+        public ClientTokenDto CreateTokenByClient(Client client)//property değerleri appsettings.json dosyasından alınır.
         {
             var accesTokenExpiration = DateTime.Now.AddMinutes( _tokenOption.AccessTokenExpiration);
             var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecurityKey);
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-             //bu token'da dinleyiciler olmaz clientKey ile client ilgili api'ye erişir
+             /*bu token'da dinleyiciler olmaz clientKey ile client ilgili api'ye erişir.Ve oradan user ile ilgili bir bilgi
+             olmadan api'ye erişir*/
             JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
                 issuer: _tokenOption.Issuer,
                 expires: accesTokenExpiration,
@@ -143,6 +144,6 @@ namespace AuthServer.ServiceLayer.Services
                 AccessTokenExpiration = accesTokenExpiration,
             };
             return clientTokenDto;
-        }
+        }        
     }
 }
