@@ -36,7 +36,7 @@ namespace AuthServer.Shared.Dtos
         public ErrorDto? Error { get; private set; }
 
         /*
-        Bu property back-end geliştirilirken kullanılır client tarafına gönderilmez ve bu response clien'a gönderilmek için json'a
+        Bu property back-end geliştirilirken kullanılır client tarafına gönderilmez ve bu response client'a gönderilmek için json'a
         döndürülürken JsonIgNore kullanıldığı için dahil edilmez. Amacı response success olup olmadığını statusCode'a bakıp anlamak yerine
         direkt true yada false mı diye bakarak anlamatakdır. Sadece back-end geliştirirken işimizi hızlandırır. Success methodlarda true
         setleyip fail methodlarda da false'a setlemek yeterli olacaktır.
@@ -62,7 +62,7 @@ namespace AuthServer.Shared.Dtos
         }
 
         //Response olarak birden fazla hata mesajı dönülecekse ErrorDto olarak dönülebilir.
-        public static Response<T> Fail(int statusCode, ErrorDto error) { 
+        public static Response<T> Fail(ErrorDto error,int statusCode) { 
             return new Response<T> { StatusCode = statusCode, Error = error, IsSuccessful =false };
         }
 

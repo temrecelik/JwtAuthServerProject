@@ -19,7 +19,7 @@ namespace AuthServer.Shared.Dtos
         public List<string> Errors { get; private set; }
 
         /*
-        Validation hataları kullanıcya gösterilirken bazı hatalar sadece geliştiricinin görmesi gereken hatalardır. Bu nedenle
+        Validation hataları kullanıcıya gösterilirken bazı hatalar sadece geliştiricinin görmesi gereken hatalardır. Bu nedenle
         Ishow property'si hatanın kullanıcıya gösterilip gösterilmemesini tutar.
         */
         public bool IsShow {  get; private set; }
@@ -37,9 +37,9 @@ namespace AuthServer.Shared.Dtos
             IsShow = isShow;
         }
 
-        public ErrorDto(List<string> error, bool isShow)
+        public ErrorDto(List<string> errors, bool isShow)
         {
-            Errors = error;
+            Errors = errors;
             IsShow =isShow;
         }
     }
