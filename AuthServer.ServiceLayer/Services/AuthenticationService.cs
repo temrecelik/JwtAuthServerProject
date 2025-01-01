@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 
 namespace AuthServer.ServiceLayer.Services
 {
+    //AuthenticationController authenticationService'den beslenecek bu authenticationService ise TokenService'den beslenecek.
+
     public class AuthenticationService : IAuthenticationService
     {
         private readonly List<Client> _clients;
@@ -25,18 +27,19 @@ namespace AuthServer.ServiceLayer.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<UserRefreshToken> _userRefreshTokenRepository;
 
-        public AuthenticationService(IOptions<List<Client>> OptionsClients, ITokenService tokenService, UserManager<UserApp> userManager, IUnitOfWork unitOfWork, IGenericRepository<UserRefreshToken> userRepository)
+
+        public AuthenticationService(IOptions<List<Client>> OptionsClients, ITokenService tokenService, UserManager<UserApp> userManager, IUnitOfWork unitOfWork, IGenericRepository<UserRefreshToken> userRefreshTokenRepository)
         {
             _clients = OptionsClients.Value;//Option pattern ile apsetting'den bir classWın property'lerini almak için value kullanılır.
             _tokenService = tokenService;
             _userManager = userManager;
             _unitOfWork = unitOfWork;
-            _userRepository = userRepository;
+            _userRefreshTokenRepository = userRefreshTokenRepository;
         }
 
         /*
         bu method ITokenService'den beslenerek sign'in olan kullanıcıya token üretir ve refresh token'ı user'ı ile birlikte
-        database kaydeder.
+        database kaydeder.Yani endpoint yazarken tokenservice değil authentication service kullanılır.
         */
         public async Task<Response<TokenDto>> CreateAccesAndRefreshToken(LoginDto loginDto)
         {
@@ -75,19 +78,55 @@ namespace AuthServer.ServiceLayer.Services
 
         }
 
-        public Task<Response<ClientTokenDto>> CreateAccesTokenByClient(ClientLoginDto clientLoginDto)
+        public Response<ClientTokenDto> CreateAccesTokenByClient(ClientLoginDto clientLoginDto)
         {
-            throw new NotImplementedException();
+            var client = _clients.SingleOrDefault(x => x.ClientId == clientLoginDto.clientId && x.ClientSecretKey ==clientLoginDto.clientSecret);
+            if (client == null) 
+                return Response<ClientTokenDto>.Fail("ClientId or ClientSecretKey is wrong", 404, true);
+
+            /*client ile girilen API'ler için refresh token yoktur buradaki tokenDto'da sadece access token ve 
+              experssion süresi tutulur. Refresh token oluşturulmaz.
+             */
+            var tokenDto = _tokenService.CreateTokenByClient(client);
+
+            return Response<ClientTokenDto>.Success(tokenDto, 200);
+        }
+        
+        //verilen refresh token database'de ilgili user'ın id'si ile birlikte kayıtlıdır.
+        public async Task<Response<TokenDto>> CreateAccesTokenByRefreshToken(string refreshToken)
+        {
+            var ExistrefreshToken =await _userRefreshTokenRepository.Where(x => x.RefreshTokenCode == refreshToken).SingleOrDefaultAsync();
+            
+            if (ExistrefreshToken == null) 
+                return Response<TokenDto>.Fail("Refresh Token not found", 404, true);
+
+            var user = await _userManager.FindByIdAsync(ExistrefreshToken.UserId);
+
+            if (user == null)
+                return Response<TokenDto>.Fail("User not found", 404, true);
+
+            var tokenDto = _tokenService.CrateToken(user);
+
+            //kullanıcının  refresh token'ı veritabanında güncellenir.
+            ExistrefreshToken.RefreshTokenCode = tokenDto.RefreshToken;
+            ExistrefreshToken.Expiration = tokenDto.RefreshTokenExpiration;          
+            await _unitOfWork.CommitAsync();
+
+            return Response<TokenDto>.Success(tokenDto, 200);
+
         }
 
-        public Task<Response<TokenDto>> CreateAccesTokenByRefreshToken(string refreshTokenDto)
+        //kullanıcı çıkış yaptığında refresh token'ı AuthServer'da tutulan refresh token'lar arasından silinir.
+        public async Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken)
         {
-            throw new NotImplementedException();
-        }
+            var ExistrefreshToken =await _userRefreshTokenRepository.Where(x => x.RefreshTokenCode == refreshToken).SingleOrDefaultAsync();
+            if (ExistrefreshToken == null)
+                return Response<NoDataDto>.Fail("Refresh Token not found", 404, true);
 
-        public Task<Response<NoDataDto>> RevokeRefreshToken(string refreshTokenDto)
-        {
-            throw new NotImplementedException();
+            _userRefreshTokenRepository.Remove(ExistrefreshToken);
+            await _unitOfWork.CommitAsync();
+
+            return Response<NoDataDto>.Success(200);
         }
     }
 }

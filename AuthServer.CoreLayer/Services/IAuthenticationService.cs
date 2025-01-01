@@ -23,18 +23,18 @@ namespace AuthServer.CoreLayer.Services
            gönderir.Bu sayede kullanıcı çıkış yaptırılmadan access token'ı ve refresh token'ı yenilenmiş olur.Aşağıda method bu durum için
            kullanılır.
          */
-        Task<Response<TokenDto>> CreateAccesTokenByRefreshToken(string refreshTokenDto);
+        Task<Response<TokenDto>> CreateAccesTokenByRefreshToken(string refreshToken);
 
         /*
          Kullanıcı çıkış yaptığında refresh token'ı AuthServer'da tutulan refresh token'lar arasından silinir.Bu method ile hem client'ın
          local storage'ından refresh token silinir hemde AuthServer'da refresh token silinir.
          */
-        Task<Response<NoDataDto>> RevokeRefreshToken(string refreshTokenDto);
+        Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken);
 
         /*Üyelik sistemi bulunmayan API'lere client tarafından erişmek için kullanılacak access token bu method ile oluşturulur.Üyelik
           sistemi gerektirmeyen API'lerde refretoken oluşturulmaz ve kullanıcıya gönderilmez. Sadece access token oluşturulur. Client
           eğer access token'ın ömrü dolarsa elinde clientID ve clientSecret ile AuthServer'a istekte bulunarak yeni bir access token alır.
          */
-        Task<Response<ClientTokenDto>> CreateAccesTokenByClient(ClientLoginDto clientLoginDto);
+        Response<ClientTokenDto> CreateAccesTokenByClient(ClientLoginDto clientLoginDto);
     }
 }
