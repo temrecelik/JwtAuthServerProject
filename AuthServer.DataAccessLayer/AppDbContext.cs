@@ -22,9 +22,14 @@ namespace AuthServer.DataAccessLayer
     /// </summary>
     public class AppDbContext : IdentityDbContext<UserApp,IdentityRole, string>
     {
+        //program.cs'de yazılan yapılandırmaya göre migration'ı basar.
+       
+     
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+
         //İdentity dışındaki dbSet'leri kendimiz oluşturduk.
         public DbSet<Product> Products { get; set; }
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
@@ -41,6 +46,7 @@ namespace AuthServer.DataAccessLayer
         {
            
             builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        
             base.OnModelCreating(builder);
         }
 

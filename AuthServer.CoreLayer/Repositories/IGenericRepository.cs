@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace AuthServer.CoreLayer.Repositories
 {
+    /*
+     * Önemli Not 
+     Eğer bir generic service olutşruduğumuzda bu generic repository içinde geçerlidir.herhangi bir entity için 
+     ekstra bir service methodu eklemeyecekse IProductService ve ProductService gibi bir çok service oluşturmak yerine direkt
+     olarak controller'da IGenericService<Product,ProductDto> şeklinde bir tanımlama yaparak bu service'i kullanabiliriz.Ama 
+     bazı entity'ler için generic repository'de olmayan methodlarda yazılabilir. Bunun için ekstra olarak IProductService ve
+     ProductService gibi service'lerİ oluşturup IGenericService'i implemente edebiliriz.
+     */
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetByIdAsync(int id);

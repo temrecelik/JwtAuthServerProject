@@ -8,7 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthServer.DataAccessLayer.Repositories
-{
+{/*
+     * Önemli Not 
+     Eğer bir generic service olutşruduğumuzda bu generic repository içinde geçerlidir.herhangi bir entity için 
+     ekstra bir service methodu eklemeyecekse IProductService ve ProductService gibi bir çok service oluşturmak yerine direkt
+     olarak controller'da IGenericService<Product,ProductDto> şeklinde bir tanımlama yaparak bu service'i kullanabiliriz.Ama 
+     bazı entity'ler için generic repository'de olmayan methodlarda yazılabilir. Bunun için ekstra olarak IProductService ve
+     ProductService gibi service'lerİ oluşturup IGenericService'i implemente edebiliriz.
+     */
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
 
@@ -23,10 +30,10 @@ namespace AuthServer.DataAccessLayer.Repositories
         Aşağıdaki işlemler bittiğinde henüz  saveChange methodu çağrılmadığı için veritabanında bir değişiklik olmaz.
         UnitOfWork ile saveChange işlemi yapılır.
         */
-        public GenericRepository(AppDbContext context, DbSet<TEntity> dbSet)
+        public GenericRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<TEntity>();    
+            _dbSet = context.Set<TEntity>();
         }
 
         public async Task AddAsync(TEntity entity)
@@ -38,17 +45,17 @@ namespace AuthServer.DataAccessLayer.Repositories
         //döneriz. Bu işlem ile veritabanından tüm veriler direkt olarak list olarak alınır.
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-          return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
-            if(entity != null)
+            if (entity != null)
             {
                 /*Eğer ilgili ID'ye ait  entity veri tabanında varsa bu entity'nin state durumunu detached yaparız.
                   böylece bu veri memory'da takip edilmez.*/
-                _context.Entry(entity).State = EntityState.Detached;  
+                _context.Entry(entity).State = EntityState.Detached;
             }
             return entity;
         }

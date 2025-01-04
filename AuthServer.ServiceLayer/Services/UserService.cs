@@ -23,7 +23,7 @@ namespace AuthServer.ServiceLayer.Services
         public async Task<Response<UserAppDto>> CreateUserAsync(CreateUserDto createUserDto)
         {
             var user = new UserApp
-            {
+            {   Id = Guid.NewGuid().ToString(),
                 UserName = createUserDto.UserName,
                 Email = createUserDto.Email
             };
@@ -34,15 +34,19 @@ namespace AuthServer.ServiceLayer.Services
              */
             var result =await _userManager.CreateAsync(user, createUserDto.Password);
 
-            if(!result.Succeeded)
+            var existUser = await _userManager.FindByNameAsync(createUserDto.UserName); 
+
+            if (!result.Succeeded)
             {
                 var errors = result.Errors.Select(x => x.Description).ToList();
-                
+               
                 return Response<UserAppDto>.Fail(new ErrorDto(errors, true), 400);
             }
 
             return Response<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
         }
+
+
 
         public async Task<Response<UserAppDto>> GetUserByNameAsync(string userName)
         {

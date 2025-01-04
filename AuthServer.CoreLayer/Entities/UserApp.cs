@@ -13,9 +13,9 @@ classında go to implementation diyerek bir user için barındırdığı propert
 entity'si içinde eklenebilir. İdentity'de default olarak tanımlanan property'ler de silinebilir ya da veri tipi 
 değiştirilebilir.
     */
-    public class UserApp : IdentityUser
+    public class UserApp : IdentityUser<string>
     {
-        public string city { get; set; }
+        public string? city { get; set; }
 
 
     }
