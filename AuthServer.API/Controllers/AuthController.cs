@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServer.API.Controllers
 {
-    [Route("api/[action]")] //bir controller'da bir istekten fazla var ise içerisi action olmalıdır method nameni bakar.
+    [Route("api/[action]")] //bir controller'da birden fazla aynı tür http isteği var action eklenmelidir.
     [ApiController]
     public class AuthController : CustomBaseController
     {

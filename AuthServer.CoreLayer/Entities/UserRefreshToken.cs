@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace AuthServer.CoreLayer.Entities
 {
     /*
-    AuthServer Client tarafına göndereceği refresh token'ı aynı zamanda veri tabanındada hangi kullanıcıya ait olduğu ve token ömrü ile
-    beraber tutmalıdır. By neden UserRefreshToken adında bir entity olmalıdır.Refresh token için ekstra bir Id tutmaya gerek yoktur.
+    Refresh token veri tabanında UserId ve ömrü ile beraber tutulmalıdır.
    */
     public class UserRefreshToken
     {

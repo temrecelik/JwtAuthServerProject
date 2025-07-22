@@ -11,7 +11,7 @@ namespace AuthServer.CoreLayer.Services
 {
     public interface ITokenService
     {
-        TokenDto CrateToken(UserApp userApp);
+        TokenDto CreateToken(UserApp userApp);
         ClientTokenDto CreateTokenByClient(Client client);
     }
 }

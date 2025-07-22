@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 namespace AuthServer.Shared.Dtos
 {
     /*
-     *ErrorDto ile API'lerde oluşan hatalar için dönecek bir hatalar dto tipinde döndürülürse kullanıcıya daha ölçeklendirilebilinir bir 
-      deneyim sunulur.Bu hatalar validation hataları, token süresi hataları gibi hatalar olabilir. Hatalar tüm API'lerde ortak bir yapı 
+    
+     *ErrorDto ile API'lerde oluşan hatalar aynı tip dto tipinde döndürülürse front-end tarafı için daha ölçeklendirilebilir bir geliştirme yapılabilir
+      Bu hatalar validation hataları, token süresi hataları gibi hatalar olabilir. Hatalar tüm API'lerde ortak bir yapı 
       olduğu için shared  klasöründe tutmak mantıklıdır.
 
      *Property'lerin set kısmını private'a çektiğimizde kullanıcı direkt olarak bir dto'yu oluşturamaz oluşturması için constructor methodları
       çağırması gereklidir.
+
     */
     public class ErrorDto
     {

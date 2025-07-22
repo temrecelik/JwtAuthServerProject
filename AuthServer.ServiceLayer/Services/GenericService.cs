@@ -64,7 +64,7 @@ namespace AuthServer.ServiceLayer.Services
             return Response<NoDataDto>.Success(204);
         }
 
-        public async Task<Response<NoDataDto>> Update(TDto dto, int Id)
+        public async Task<Response<NoDataDto>> UpdateAsync(TDto dto, int Id)
         {
             /*GetByIdAsync repository'sini kodlarken state'i detached işaretledik böylece memory'de bu entity'nin
               track oluyunu kaldırdık yani memory'de Id'si işaratlenmedi alttaki update methodunda ise state'i modified

@@ -4,8 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
-
+builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
+var tokenOption = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
+builder.Services.AddCustomTokenAuth(tokenOption!);
 
 
 builder.Services.AddControllers();
@@ -23,9 +24,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

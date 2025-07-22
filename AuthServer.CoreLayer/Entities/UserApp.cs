@@ -8,15 +8,11 @@ using System.Threading.Tasks;
 namespace AuthServer.CoreLayer.Entities
 {
 /*
-User'lar için identity ile üyelik sistemini oluşturulacak. İdentityUser classında user için default property'ler tanımlıdır. IdentityUser
-classında go to implementation diyerek bir user için barındırdığı property'leri görebilirsin. Ekstra property'de UserApp 
-entity'si içinde eklenebilir. İdentity'de default olarak tanımlanan property'ler de silinebilir ya da veri tipi 
-değiştirilebilir.
-    */
+   Identity kütüphanesi ile üyelik sistemi inşa ederken dbcontext'te bizden appuser ve approle entity'leri ister bu entity'lere göre üyelik için gerekli tüm tabloları
+   kendisi oluşturur.
+*/
     public class UserApp : IdentityUser<string>
     {
         public string? city { get; set; }
-
-
     }
 }

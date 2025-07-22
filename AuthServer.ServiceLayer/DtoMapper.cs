@@ -16,8 +16,8 @@ namespace AuthServer.ServiceLayer
     Gelişmiş bir projede bir entity için getproductDto,addProductDto gibi farklı dto'lar oluşturulabilir.Burada biz jwt 
     odaklı olduğumuz için service kodlarımızı aşırı gelişmiş değildir. 
    
-     *HerDto'ya ait bir entity'de olmayabilir örneğin CreateUserDto için bir entity oluşturulmaz.Çünkü bu token'lar 
-     veritabanına kaydedilmez. Sadece oluşturulur ve client'a gönderilir.
+    *HerDto'ya ait bir entity'de olmayabilir örneğin CreateUserDto için bir entity oluşturulmaz.Çünkü bu token'lar 
+    veritabanına kaydedilmez. Sadece oluşturulur ve client'a gönderilir.
 
     *Her entity için bir dto oluşturulmayadabilir. Örneğin userRefreshToken  bir entity'dir ancak client'tan gelmez
      direkt back-end'de oluşturulur ve veri tabanına kaydedilir. Bu nedenle userRefreshToken  için client ile iletişime 

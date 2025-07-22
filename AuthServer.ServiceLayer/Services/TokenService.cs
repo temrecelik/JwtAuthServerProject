@@ -3,6 +3,7 @@ using AuthServer.CoreLayer.Dtos;
 using AuthServer.CoreLayer.Entities;
 using AuthServer.CoreLayer.Services;
 using AuthServer.Shared.Configurations;
+using AuthServer.Shared.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -19,10 +20,15 @@ using System.Threading.Tasks;
 
 namespace AuthServer.ServiceLayer.Services
 {
+    /*
+     TokenService controller'da kullanılmaz.Burada createAccesToken  ve CreateRefresh Token methodları yazılır. AuthenticationService TokenService'den nesne üreterek bu methodları
+     kullanılır.Ve dönen tokenları tokenDto classında property'leri atarak client'a döner.
+     */
+
     public class TokenService : ITokenService
     {
         private readonly UserManager<UserApp> _userManager;
-        private readonly CustomTokenOption _tokenOption;
+        private readonly CustomTokenOption _tokenOption;//Property'ler appsetting.json'dan optionpattern ile doldurulacak.
 
         public TokenService(UserManager<UserApp> userManager, IOptions<CustomTokenOption> tokenOption)
         {
@@ -41,12 +47,14 @@ namespace AuthServer.ServiceLayer.Services
             return Convert.ToBase64String(numberByte);
         }
 
-        /*AccessToken payload'ında olacak claim'ları hazırlarken bu claim'ların key'i sabit olmalıdır.Çünkü
-         kendimiz bu cliamlara key yazarsak identiy kütüphanesi bu token'daki rolleri algılamaz. Ve giriş
-         yapan kullanıcının access tokenındaki ıd değerini ve name değerini veri tabanında arayamaz. Bunun için
-         key değeri claims classından olşturulan yada JwtRegisteredClaimNames classından oluşturulan sabit
-         stringler olmalıdır.Kendimiz string verirsek User'ın tüm cliem'larını gerek ilgili claim bulmak zorunda
-         kalırız.*/ 
+        /*
+        *GetClaims Methodu accessToken üretirken token'ın payload bölümünde bulunacak key-value çiftlerini yapılandırmak için kullanılır.
+        
+        *AccessToken payload'ında olacak claim'ları hazırlarken bu claim'ların key'i sabit olmalıdır.Çünkü kendimiz bu cliamlara key yazarsak identiy kütüphanesi bu token'daki 
+         claimların neye karşılık geldiğini algılamaz. Ve girişi yapan kullanıcının access tokenındaki ıd değerini ve name değerini veri tabanında arayamaz. Bunun için key değeri 
+         claims classından olşturulanyada JwtRegisteredClaimNames classından oluşturulan sabit stringler olmalıdır. Kendimiz string verirsek User'ın tüm cliam'larını gerek ilgili 
+         claim bulmak zorunda kalırız.
+        */ 
        
         private IEnumerable<Claim> GetClaims(UserApp userApp ,List<String> audiences)
         {
@@ -84,13 +92,13 @@ namespace AuthServer.ServiceLayer.Services
         }
 
 
-        public TokenDto CrateToken(UserApp userApp)
+        public TokenDto CreateToken(UserApp userApp)
         {
-           ;
+         
              var AccessTokenExpiration = DateTime.Now.AddMinutes(_tokenOption.AccessTokenExpiration);
 
             //securityKey kullanılarak token'ın imzası oluşturulur.Tek bir key olduğu için bu imza symmetric olarak oluşturulur.
-            var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecurityKey);
+            var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecretKey);
 
             //Security key'e göre token için bir imza üretiyor.
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -122,7 +130,7 @@ namespace AuthServer.ServiceLayer.Services
         public ClientTokenDto CreateTokenByClient(Client client)//property değerleri appsettings.json dosyasından alınır.
         {
             var accesTokenExpiration = DateTime.Now.AddMinutes( _tokenOption.AccessTokenExpiration);
-            var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecurityKey);
+            var securityKey = SignService.GetSymmetricSecurityKey(_tokenOption.SecretKey);
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 

@@ -11,6 +11,8 @@ using AuthServer.Shared.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 
 internal class Program
 {
@@ -28,8 +30,8 @@ internal class Program
           ayný þekilde client'ýn user bilgisi istemeyen api'lere eriþebilmesi için üretilecek token'ýn bilgilerinide client class'ýnda
           nesne ürettiðimizde appsetting.json'dan eþleyerek eriþebiliyoruz. alýyoruz.   
          */
-       // builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
-       // builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
+        builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
+        builder.Services.Configure<List<Client>>(builder.Configuration.GetSection("Clients"));
 
         /*
            Dependency Injection (DI) Service Registration
@@ -77,45 +79,58 @@ internal class Program
 
         }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
-      
-        
+
+
         /*
+           Gelen Token'ýn Api Tarafýndan Tanýnmasý için Gerekli Yapýlandýrma
+
          * Bir sistemde birden fazla üyelik sistemi bulunabilir. Örneðin bayiler için farklý bir üyelik sistemi bulunurken 
            müþteriler için de farklý bir üyelik sistemi olabilir.Yani site içinde iki farklý login alaný bulunur.Bu üyelik
            sistemleri scheme olarak adlandýrýlýr.Birden fazla üyelik sistemi olsaydý AddAthenc
            scheme adý girmemiz gerekirdi. JwtBearerDefaults.AuthenticationScheme ifadesi sabit bir string ifadesidir. Bearer 
            stringi tutar.
          
-         *DefaultChallengeScheme ile AddJwtBearer'ýn þemasý kendi þemamýzýn ayný olduðunu bildirdik. AddJwtBearer methodu ile de 
-          üyelik sistemimizde authetnication iþleminin token bazlý gerçekleþeceðini framework'e bildirdik. Sonra token'ýmýzýn
-          validation iþlemlerini oluþturmak istediðimiz token'a göre ayarlarýz.
+          *DefaultChallengeScheme ile AddJwtBearer'ýn þemasý kendi þemamýzýn ayný olduðunu bildirdik. AddJwtBearer methodu ile de 
+           üyelik sistemimizde authetnication iþleminin token bazlý gerçekleþeceðini framework'e bildirdik. Sonra token'ýmýzýn
+           validation iþlemlerini oluþturmak istediðimiz token'a göre ayarlarýz.
          */
-        builder.Services.AddAuthentication(options =>
-        {   
 
+        builder.Services.Configure<CustomTokenOption>(builder.Configuration.GetSection("TokenOption"));
+        var tokenOption = builder.Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
 
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        builder.Services.AddCustomTokenAuth(tokenOption!);
 
-        }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        builder.Services.AddSwaggerGen(c =>
+        {
+            // Swagger Authorization baþlýðýný ekleyin
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-               options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-               {
-                  ValidIssuer =builder.Configuration["TokenOption:Issuer"],
-                  ValidAudience = builder.Configuration["TokenOption:Audience"],
-                  IssuerSigningKey = SignService.GetSymmetricSecurityKey(builder.Configuration["TokenOption:SecretKey"]!),
-                  ValidateIssuerSigningKey =true,
-                  ValidateAudience =true,
-                  ValidateIssuer = true,
-                  ValidateLifetime =true,
-                  ClockSkew = TimeSpan.Zero //token ömrüne Apý'ler arasýndaki zaman  farklarý için süre ekler.
-               };
-            }
-        );
+                In = ParameterLocation.Header,  // Token header'da olacak
+                Description = "Please enter a valid token", // Kullanýcýya ne yapmasý gerektiði bilgisi
+                Name = "Authorization", // Swagger'da kullanýlacak baþlýk
+                Type = SecuritySchemeType.ApiKey, // API anahtarý türü
+                BearerFormat = "JWT" // Token formatý
+            });
+
+            // Swagger'a JWT doðrulama gereksinimini ekleyin (Herhangi bir rol gerektirmeden)
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer" // Burada 'Bearer' baþlýðýný kullanacaðýz
+                }
+            },
+            new string[] {} // Roles gereksinimi eklenmeden sadece JWT doðrulama
+        }
+    });
+        });
 
 
 
-       
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

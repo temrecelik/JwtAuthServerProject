@@ -12,29 +12,39 @@ namespace AuthServer.CoreLayer.Services
     {
         /*
          *User giriş yaptıktan sonra işlem başarılı ise AccessToken ve RefreshToken oluşturulur. Ve bu tokenlar TokenDto'ya eklenir.Ve 
-         client tarafına döndürülür.
+         client tarafına döndürülür.Yani bu methodda signanager ile loginDto kullanılarak sisteme giriş yapılır ve ilgili kullanıcıya göre
+         accessToken ve refresToken üretilir. Üretiken Token'lar end-point'te client'a TokenDto nesnesi olarak gönderilir.
          */
         Task<Response<TokenDto>> CreateAccesAndRefreshToken(LoginDto loginDto);
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         /*
-         * Eğer kullanıcı refresh tokenın ömrü bitmeden belirli periyotlarda uygulamayı açıyorsa access tokenın ömrü bitmiş olabilir.
-           Bu durumda ilgili API AuthServer'a bir hata kodu döner ancak client tarafı bundan etkilenmez.Bu hata ile birlikte ömrü tükenmemiş
-           olan RefreshToken'ı alıp doğrulayan AuthServer ilgili  kullanıcı için yeni bir access token ve refresh token oluşturur ve client'a 
-           gönderir.Bu sayede kullanıcı çıkış yaptırılmadan access token'ı ve refresh token'ı yenilenmiş olur.Aşağıda method bu durum için
-           kullanılır.
+         * Eğer kullanıcı refresh tokenın ömrü bitmeden belirli periyotlarda uygulamayı açıyorsa access tokenın ömrü bitmiş olabilir.Bu durumda
+           client accessToken'ı API'ya gönderdiğinde API bu token'ın ömrünün bitmiş olduğuna anlar ve client API'ye erişemez ve API client'a
+           401 kodu döner.Kodu alan client locastorega'ında bulunan refreshToken'ı AuthServer'a gönderir ve bu token kontrol edildikten sonra
+           ilgili kullanıcı için yeni refreshToken ve accessToken oluşturulur. Bu method işlevi görmektedir.Refresh Token userıd ile bulunarak 
+           parametre olarak verilir.Oluşturulan tokenlar TokenDto dto'suna eklenerek client'a gönderilir.
+          
          */
         Task<Response<TokenDto>> CreateAccesTokenByRefreshToken(string refreshToken);
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        
         /*
-         Kullanıcı çıkış yaptığında refresh token'ı AuthServer'da tutulan refresh token'lar arasından silinir.Bu method ile hem client'ın
-         local storage'ından refresh token silinir hemde AuthServer'da refresh token silinir.
+           Logout işleminden sonra kullanıcının refresh token'ı veritabanından veri localstorage'dan silinmelidir. RevokeRefreshToken methodu ile
+           bu işlem yapılır. Silinecek refreshtoken parametre olarak vermek için usermanager'dan user'ın id'sine oradanda refreshToken tablosundan user'ın refreshtokenına erişilerek 
+           verilir.
          */
         Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken);
 
-        /*Üyelik sistemi bulunmayan API'lere client tarafından erişmek için kullanılacak access token bu method ile oluşturulur.Üyelik
-          sistemi gerektirmeyen API'lerde refretoken oluşturulmaz ve kullanıcıya gönderilmez. Sadece access token oluşturulur. Client
-          eğer access token'ın ömrü dolarsa elinde clientID ve clientSecret ile AuthServer'a istekte bulunarak yeni bir access token alır.
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+       
+        /*
+         Eğer kullanıcı üyelik gerektirmeyen bir API erişmek istersek bu method çalışır. ClientLoginDto'da option pattern ile ClientKey ve ClienId appsetting.json'dan 
+         alınır ve İlgili accesstoken üretilir bu token ClientTokenDto nesnesine property olarak verilere client'a döndürülür.
          */
         Response<ClientTokenDto> CreateAccesTokenByClient(ClientLoginDto clientLoginDto);
+
+ //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     }
 }

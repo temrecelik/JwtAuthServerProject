@@ -52,7 +52,7 @@ namespace AuthServer.ServiceLayer.Services
             if(!await _userManager.CheckPasswordAsync(user, loginDto.Password))
                 return Response<TokenDto>.Fail("Email or Password is wrong", 400, true);
 
-            var tokenDto = _tokenService.CrateToken(user);
+            var tokenDto = _tokenService.CreateToken(user);
             var userRefreshToken = await _userRefreshTokenRepository.Where(x => x.UserId == user.Id).SingleOrDefaultAsync();
 
             //bir user için daha önce bir refresh token oluşturulmamışsa yeni bir refresh token oluşturulur.
@@ -105,7 +105,7 @@ namespace AuthServer.ServiceLayer.Services
             if (user == null)
                 return Response<TokenDto>.Fail("User not found", 404, true);
 
-            var tokenDto = _tokenService.CrateToken(user);
+            var tokenDto = _tokenService.CreateToken(user);
 
             //kullanıcının  refresh token'ı veritabanında güncellenir.
             ExistrefreshToken.RefreshTokenCode = tokenDto.RefreshToken;
